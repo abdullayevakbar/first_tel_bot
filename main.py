@@ -1,6 +1,7 @@
 import requests
 from pprint import pprint
-from Token import TOKEN
+from Token import token
+TOKEN = token
 
 
 class Messages:
