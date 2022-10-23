@@ -16,11 +16,17 @@ class Messages:
 
     def send_message(self, chat_id):
         url = f'https://api.telegram.org/bot{self.TOKEN}/sendMessage'
+        line1 = [{'text': '7'}, {'text': '8'}, {'text': "9"}, {'text': '*'}]
+        line2 = [{'text': '4'}, {'text': '5'}, {'text': '6'}, {'text': '/'}]
+        line3 = [{'text': '1'}, {'text': '2'}, {'text': '3'}, {'text': '-'}]
+        line4 = [{'text': '0'}, {'text': '.'}, {'text': '='}, {'text': '+'}]
+        keyboard = [line1, line2, line3, line4]
         data = {
             'chat_id': chat_id,
-            'text': "Please write cat,dog or contact!!"
+            'text': "You can look at the keyboard!",
+            'reply_markup': {"keyboard": keyboard, 'resize_keyboard': True}
         }
-        requests.post(url, data=data)
+        requests.post(url, json=data)
 
     def send_photo(self, text, chat_id):
         url = f'https://api.telegram.org/bot{self.TOKEN}/sendPhoto'
@@ -75,12 +81,12 @@ class Messages:
 
 
 def read_txt(last_message, chat_id):
-    if 'contact' in last_message:
-        f.send_contact(chat_id=chat_id, text=last_message)
-    elif last_message.lower() in ('cat', "dog"):
-        f.send_photo(text=last_message.lower(), chat_id=chat_id)
-    else:
-        f.send_message(chat_id=chat_id)
+    # if 'contact' in last_message:
+    #     f.send_contact(chat_id=chat_id, text=last_message)
+    # elif last_message.lower() in ('cat', "dog"):
+    #     f.send_photo(text=last_message.lower(), chat_id=chat_id)
+    # else:
+    f.send_message(chat_id=chat_id)
 
 
 f = Messages(TOKEN)
