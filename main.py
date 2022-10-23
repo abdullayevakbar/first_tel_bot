@@ -16,11 +16,12 @@ class Messages:
 
     def send_message(self, chat_id):
         url = f'https://api.telegram.org/bot{self.TOKEN}/sendMessage'
-        line1 = [{'text': '7'}, {'text': '8'}, {'text': "9"}, {'text': '*'}]
-        line2 = [{'text': '4'}, {'text': '5'}, {'text': '6'}, {'text': '/'}]
-        line3 = [{'text': '1'}, {'text': '2'}, {'text': '3'}, {'text': '-'}]
-        line4 = [{'text': '0'}, {'text': '.'}, {'text': '='}, {'text': '+'}]
-        keyboard = [line1, line2, line3, line4]
+        line1 = [{'text': '👫 Play With Friends'}, {'text': '🔥 Trending Games'}]
+        line2 = [{'text': '🕓 Last Played Games'}, {'text': '🎮 Catigories'}]
+        line3 = [{'text': '🚀 Join GAMEE Token Channel'},
+                 {'text': '💰 Get App & Win Cash'}]
+        # line4 = [{'text': '0'}, {'text': '.'}, {'text': '='}, {'text': '+'}]
+        keyboard = [line1, line2, line3]
         data = {
             'chat_id': chat_id,
             'text': "You can look at the keyboard!",
