@@ -16,12 +16,11 @@ class Messages:
 
     def send_message(self, chat_id):
         url = f'https://api.telegram.org/bot{self.TOKEN}/sendMessage'
-        line1 = [{'text': '👥 Users'}, {'text': '🏷 Orders'}]
-        line2 = [{'text': '👋 Welcome text'}, {'text': '🖼 Set logo'}]
-        line3 = [{'text': '➕ Add Category'},
-                 {'text': '🗑 Remove Category'}]
-        line4 = [{'text': '📦 New product'}, {'text': '🗑 Delete product'}]
-        keyboard = [line1, line2, line3, line4]
+        line1 = [{'text': '🏬 Catalog'}, {'text': '📦 Orders'}]
+        line2 = [{'text': '👤 Userinfo'}, {'text': '🛒 Card'}]
+        line3 = [{'text': '🎛 Administration demo'}]
+        # line4 = [{'text': '📦 New product'}, {'text': '🗑 Delete product'}]
+        keyboard = [line1, line2, line3]
         data = {
             'chat_id': chat_id,
             'text': "You can look at the keyboard!",
