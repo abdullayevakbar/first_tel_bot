@@ -14,19 +14,46 @@ class Messages:
         updates = r.json()
         return updates
 
-    def send_message(self, chat_id):
+    def send_message(self, text, chat_id):
         url = f'https://api.telegram.org/bot{self.TOKEN}/sendMessage'
-        line1 = [{'text': '🏬 Catalog'}, {'text': '📦 Orders'}]
-        line2 = [{'text': '👤 Userinfo'}, {'text': '🛒 Card'}]
-        line3 = [{'text': '🎛 Administration demo'}]
+        # line1 = [{'text': '🏬 Catalog'}, {'text': '📦 Orders'}]
+        # line2 = [{'text': '👤 Userinfo'}, {'text': '🛒 Card'}]
+        # line3 = [{'text': '🎛 Administration demo'}]
         # line4 = [{'text': '📦 New product'}, {'text': '🗑 Delete product'}]
-        keyboard = [line1, line2, line3]
+        # keyboard = [line1, line2, line3]
         data = {
             'chat_id': chat_id,
-            'text': "You can look at the keyboard!",
-            'reply_markup': {"keyboard": keyboard, 'resize_keyboard': True}
+            'text': text
+            # 'reply_markup': {"keyboard": keyboard, 'resize_keyboard': True}
         }
         requests.post(url, json=data)
+
+    def reply(self, data1, chat_id):
+        list_keys = list(data1.keys())
+        url = f'https://api.telegram.org/bot{self.TOKEN}/send{list_keys[-1].title()}'
+        print(url)
+        pprint(data1[list_keys[-1]])
+        if list_keys[-1] == 'contact':
+            data = data1[list_keys[-1]]
+            del data['user_id']
+            data['chat_id'] = chat_id
+        elif type(data1[list_keys[-1]]) == type([]):
+
+            data2 = data1[list_keys[-1]][0]
+            data = {
+                'chat_id': chat_id,
+                f'{list_keys[-1]}': data2['file_id']
+            }
+        else:
+            data2 = data1[list_keys[-1]]
+            data = {
+                'chat_id': chat_id,
+                f'{list_keys[-1]}': data2['file_id']
+            }
+
+        pprint(data)
+        requests.post(url, json=data)
+        pass
 
     def send_photo(self, text, chat_id):
         url = f'https://api.telegram.org/bot{self.TOKEN}/sendPhoto'
@@ -80,13 +107,19 @@ class Messages:
         r = requests.post(url, data=data)
 
 
-def read_txt(last_message, chat_id):
+def read_txt(last_message_data, chat_id):
     # if 'contact' in last_message:
     #     f.send_contact(chat_id=chat_id, text=last_message)
     # elif last_message.lower() in ('cat', "dog"):
     #     f.send_photo(text=last_message.lower(), chat_id=chat_id)
     # else:
-    f.send_message(chat_id=chat_id)
+    list_keys = list(last_message_data.keys())
+    print(list_keys)
+    if list_keys[-1] == 'text':
+        f.send_message(text=last_message_data['text'], chat_id=chat_id)
+    else:
+        f.reply(last_message_data, chat_id)
+    # f.send_message(chat_id=chat_id, data=last_message_data)
 
 
 f = Messages(TOKEN)
@@ -103,4 +136,4 @@ while True:
     if last_message_id != old_last_message_id:
 
         old_last_message_id = last_message_id
-        read_txt(message_data['text'], chat_id)
+        read_txt(message_data, chat_id)
